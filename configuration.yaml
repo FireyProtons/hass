@@ -102,6 +102,13 @@ binary_sensor:
 #    payload_on: "open"
 #    payload_off: "closed"
     retain: true
+  - platform: mqtt
+    name: "MQTT L_Presence"
+    state_topic: "smartthings/P_Laura's Android/presence"
+    device_class: occupancy
+    payload_on: "present"
+    payload_off: "not present"
+    retain: true
 
 tts:
   platform: google
@@ -149,7 +156,7 @@ light:
       - number: 2
         name: Office TV Lights
   #hub in master bedroom
-    - host: 192.168.10.221
+    - host: 192.168.10.208
       groups:
       - number: 1
         name: Living Room
