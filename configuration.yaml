@@ -1,0 +1,166 @@
+homeassistant:
+  name: Home
+  latitude: !secret loc_lat
+  longitude: !secret loc_long
+  elevation: !secret loc_elev
+  unit_system: imperial
+  time_zone: America/Chicago
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: !secret web_api_password
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+logbook:
+
+sun:
+
+sensor:
+  - platform: yr
+
+cover:
+  - platform: rpi_gpio
+    relay_time: 0.5
+    state_pull_mode: 'UP'
+    covers:
+      - relay_pin: 11
+        state_pin: 12
+        name: 'Garage Door'
+
+binary_sensor:
+  - platform: mqtt
+    name: "MQTT Back Door"
+    state_topic: "smartthings/D_Back Door/contact"
+    device_class: opening
+    payload_on: "open"
+    payload_off: "closed"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Kitchen Door"
+    state_topic: "smartthings/D_Kitchen Door Sensor/contact"
+    device_class: opening
+    payload_on: "open"
+    payload_off: "closed"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Garage Door"
+    state_topic: "smartthings/D_Garage Door/door"
+    device_class: opening
+    payload_on: "open"
+    payload_off: "closed"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Kitchen Motion"
+    state_topic: "smartthings/M_Kitchen/motion"
+    device_class: motion
+    payload_on: "active"
+    payload_off: "inactive"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Front Door"
+    state_topic: "smartthings/D_Front Door/contact"
+    device_class: opening
+    payload_on: "open"
+    payload_off: "closed"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Garage Entry Door"
+    state_topic: "smartthings/D_Garage Entry Door/contact"
+    device_class: opening
+    payload_on: "open"
+    payload_off: "closed"
+    retain: true
+  - platform: mqtt
+    name: "MQTT Nest Smoke"
+    state_topic: "smartthings/Nest Protect - Hallways/smoke"
+    device_class: gas
+#    payload_on: "open"
+#    payload_off: "closed"
+    retain: true
+
+tts:
+  platform: google
+
+ecobee:
+  api_key: !secret eco_api_key
+
+media_player:
+  - platform: cast
+  - platform: kodi
+    alias: kodi living room
+    host: 192.168.10.142
+    port: 80
+    username: !secret kodi_username
+    password: !secret kodi_password
+
+  - platform: kodi
+    alias: kodi bedroom
+    host: 192.168.10.218
+    username: !secret kodi_username2
+    password: !secret kodi_password2
+
+mqtt:
+  broker: 127.0.0.1
+  discovery: true
+  discovery_prefix: smartthings
+
+camera:
+  platform: !secret cam_platform
+  ip: !secret cam_ip
+  port: !secret cam_port
+  username: !secret cam_username
+  password: !secret cam_password
+
+wemo:
+
+light:
+  platform: limitlessled
+  bridges:
+  #hub in office
+    - host: 192.168.10.174
+      groups:
+      - number: 1
+        name: Office Lamp
+      - number: 2
+        name: Office TV Lights
+  #hub in master bedroom
+    - host: 192.168.10.221
+      groups:
+      - number: 1
+        name: Living Room
+      - number: 2
+        name: Kaylas Room
+      - number: 3
+        name: Twins Room
+      - number: 1
+        type: bridge-led
+        name: Master Bedroom
+
+group: !include groups.yaml
+#recorder: !include recorder.yaml
+automation: !include automations.yaml

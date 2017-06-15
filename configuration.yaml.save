@@ -1,0 +1,115 @@
+homeassistant:
+  name: Home
+  latitude: 43.100690
+  longitude: -88.082411
+  elevation: 229
+  unit_system: imperial
+  time_zone: America/Chicago
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  api_password: Salt1p3p
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+logbook:
+
+sun:
+
+sensor:
+  - platform: yr
+
+binary_sensor:
+  - platform: mqtt
+    name: "MQTT Back Door"
+    state_topic: "smartthings/D_Back Door/contact"
+    "
+    payload_open: "open"
+    payload_closed: "closed"
+    retain: true
+
+tts:
+  platform: google
+
+ecobee:
+  api_key: q3fcTjQhCLoWzkrQueqcO3ooc95b2dUy
+
+media_player:
+  - platform: cast
+  - platform: kodi
+    alias: kodi living room
+    host: 192.168.10.142
+    port: 80
+    username: kodilion
+    password: lalala
+
+  - platform: kodi
+    alias: kodi bedroom
+    host: 192.168.10.218
+    username: kodi
+    password: kodi
+
+mqtt:
+  broker: 127.0.0.1
+  discovery: true
+  discovery_prefix: smartthings
+
+camera:
+  platform: foscam
+  ip: 192.168.10.124
+  port: 89
+  username: vonasten
+  password: Lilys4us2
+
+wemo:
+
+light:
+  platform: limitlessled
+  bridges:
+  #hub in office
+    - host: 192.168.10.174
+      groups:
+      - number: 1
+        name: Office Lamp
+      - number: 2
+        name: Office TV Lights
+  #hub in master bedroom
+    - host: 192.168.10.221
+      groups:
+      - number: 1
+        name: Living Room
+      - number: 2
+        name: Kaylas Room
+      - number: 3
+        name: Twins Room
+      - number: 1
+        type: bridge-led
+        name: Master Bedroom
+
+group: !include groups.yaml
+#recorder: !include recorder.yaml
+automation: !include automations.yaml
