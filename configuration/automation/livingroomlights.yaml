@@ -1,0 +1,13 @@
+- alias: 'Living Room Motion Lights'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_occupancy
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.living_room

@@ -1,0 +1,16 @@
+- alias: 'Office Motion Lights'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.office_occupancy
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+  action:
+    service: light.turn_on
+    entity_id:
+      - light.office_lamp
+      - light.office_tv_lights
+    data:
+        brightness_pct: 65
