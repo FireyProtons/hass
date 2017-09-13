@@ -118,7 +118,8 @@ ecobee:
 
 media_player:
   - platform: cast
-  - platform: kodi
+
+- platform: kodi
     alias: kodi living room
     host: 192.168.10.142
     port: 80
@@ -146,27 +147,32 @@ camera:
 wemo:
 
 light:
-  platform: limitlessled
-  bridges:
-  #hub in office
-    - host: 192.168.10.174
-      groups:
-      - number: 1
-        name: Office Lamp
-      - number: 2
-        name: Office TV Lights
-  #hub in master bedroom
-    - host: 192.168.10.208
-      groups:
-      - number: 1
-        name: Living Room
-      - number: 2
-        name: Kaylas Room
-      - number: 3
-        name: Twins Room
-      - number: 1
-        type: bridge-led
-        name: Master Bedroom
+  - platform: mqtt_json
+    name: office light
+    command_topic: "milight/0x1/rgbw/1"
+    state_topic: "milight/updates"
+    
+#  platform: limitlessled
+#  bridges:
+#  #hub in office
+#    - host: 192.168.10.174
+#      groups:
+#      - number: 1
+#        name: Office Lamp
+#      - number: 2
+#        name: Office TV Lights
+#  #hub in master bedroom
+#    - host: 192.168.10.208
+#      groups:
+#      - number: 1
+#        name: Living Room
+#      - number: 2
+#        name: Kaylas Room
+#      - number: 3
+#        name: Twins Room
+#      - number: 1
+#        type: bridge-led
+#        name: Master Bedroom
 
 group: !include groups.yaml
 #recorder: !include recorder.yaml
